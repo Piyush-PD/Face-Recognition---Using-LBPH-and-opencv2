@@ -21,24 +21,31 @@ def getImagesAndLabels(path):
     for imagePath in imagePaths:
 
         PIL_img = Image.open(imagePath).convert('L') # convert it to grayscale
-        img_numpy = np.array(PIL_img,'uint8') #fetching out the images
+        img_numpy = np.array(PIL_img,'uint8') # fetching out the image
         # import pdb; pdb.set_trace()
-        Id = os.path.split(imagePath)[-1].split(".")[1]
+        id = os.path.split(imagePath)[-1].split(".")[1]
         faces = detector.detectMultiScale(img_numpy)
 
         for (x,y,w,h) in faces:
             faceSamples.append(img_numpy[y:y+h,x:x+w])
-            ids.append(Id)
-    
+            ids.append(id)
 
     return faceSamples,ids
 
 print ("\n [INFO] Training faces. It will take a few seconds. Wait ...")
 
 faces,ids = getImagesAndLabels(path)
+Unique = np.unique(ids) # ['piyush', 'sanchit'],
+final_label = []
+count = 0
+# creating a final label which will store the label in the integer format as recognizer doesnt take the label in string so need to convert 
+for i in Unique:
+    for j in ids:
+        if i==j:
+            final_label.append(count)
+    count+=1            
+recognizer.train(faces, np.array(final_label))
 # import pdb; pdb.set_trace()
-recognizer.train(faces, np.array(ids))
-
 # Save the model into trainer/trainer.yml
 recognizer.write('trainer/trainer.yml') 
 

@@ -36,7 +36,7 @@ while(True):
     k = cv2.waitKey(100) & 0xff 
     if k == 27: 
         break
-    elif count >= 30: # if dataset reaches to 30 images then it will break the loop 
+    elif count >= 300: # if dataset reaches to 30 images then it will break the loop 
          break
 
 # Do a bit of cleanup

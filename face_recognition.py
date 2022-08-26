@@ -9,7 +9,7 @@ faceCascade = cv2.CascadeClassifier(cascadePath)
 
 font = cv2.FONT_HERSHEY_TRIPLEX
 
-labels = ["No Image", "Piyush"]
+labels = ["Piyush", "Sanchit"] # As per the Unique labels
 
 # Initialize and start realtime video capture
 cam = cv2.VideoCapture(0)
@@ -40,7 +40,7 @@ while True:
 
         Ids, confidence = recognizer.predict(gray[y:y+h,x:x+w])
 
-        if (confidence > 90):
+        if (confidence > 50):
             Identity = labels[Ids]
             confidence = "  {0}%".format(round(confidence))
         else:
